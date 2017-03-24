@@ -1,8 +1,8 @@
-function Mock() {
-    throw new Error('Mock is a static class!');
+function NonContext() {
+    throw new Error('NonContext is a static class!');
 }
 
-Mock.mock = function (data) {
+NonContext.anon = function (data) {
     data = data.replace(/['"]+/g, '');
 
     var elements = data.match(/\S+/g);
@@ -28,13 +28,8 @@ Mock.mock = function (data) {
             split[i] = "XXX";
         }
     }
-    
+
     return split.join(" ");
 }
 
-Mock.log_mock = function (string_input) {
-    console.log(Mock.mock(string_input));
-}
-
-
-module.exports = Mock;
+module.exports = NonContext;

@@ -1,24 +1,30 @@
-var Client = require('./src/client.js');
-var Mock = require('./src/types/mock.js');
+var NER = require('./src/ner.js');
+var NonContext = require('./src/types/noncontext.js');
 
 function Cocopta() {
     throw new Error('Cocopta is a static class!');
 }
 
-Cocopta.ner = function (string_input) {
-    Client.replace_combined(string_input, 0);
+Cocopta.anon = function (string_input, callback) {
+    NER.get_entities(string_input.replace('"', ''), 2).then(function (str) {
+        callback(str);
+    });
 }
 
-Cocopta.partial = function (string_input) {
-    Client.replace_combined(string_input, 2);
+Cocopta.ner = function (string_input, callback) {
+    NER.get_entities(string_input.replace('"', ''), 0).then(function (str) {
+        callback(str);
+    });
 }
 
-Cocopta.alt = function (string_input) {
-    Mock.log_mock(string_input);
+Cocopta.noncontext = function (string_input) {
+    return NonContext.anon(string_input);
 }
 
-Cocopta.ult = function (string_input) {
-    Client.replace_combined(Mock.mock(string_input), 1);
+Cocopta.combined = function (string_input, callback) {
+    NER.get_entities(Mock.mock(string_input).replace('"', ''), 1).then(function (str) {
+        callback(str);
+    });
 }
 
 module.exports = Cocopta;

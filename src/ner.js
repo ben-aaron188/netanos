@@ -1,10 +1,10 @@
 const ner = require('ner');
-
-var fs = require('fs');
+var Promise = require('promise');
 var Compromise = null;
 var Util = null;
 var NamedEntityReplacement = null;
 var Partial = null;
+
 
 function NER() {
     throw new Error('NER is a static class!');
@@ -16,13 +16,23 @@ function NER() {
  * @param {String} file The name of the given file name
  */
 NER.get_entities = function (string_input, type) {
-    ner.get({
-        port: 8080,
-        host: 'localhost'
-    }, string_input, function (err, res) {
-        NER.replace_entities(NER.as_set(res.entities), string_input, type);
+
+    var promise = new Promise(function (resolve, reject) {
+        ner.get({
+            port: 8080,
+            host: 'localhost'
+        }, string_input, function (err, res) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(NER.replace_entities(NER.as_set(res.entities), string_input, type));
+            }
+        });
     });
+
+    return promise;
 }
+
 
 /**
  * Converts the entity object to a set (math.).
@@ -196,7 +206,7 @@ NER.replace_entities = function (entities, data, type) {
             output = NER.replace_currencies(output);
         }
 
-        console.log(output);
+        return output;
     }
 };
 
