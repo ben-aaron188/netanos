@@ -101,7 +101,7 @@ console.log(anonymized);
 “XXX and XXX spent more than more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”
 */
 ```
-4. Combined, non-context preserving anonymization**: here the non-context preserving replacement and the named entity-based replacement are combined such that each word starting with a capital letter, each numeric word and all identified named entities are being replaced with "XXX". Usage:
+4. **Combined, non-context preserving anonymization**: here the non-context preserving replacement and the named entity-based replacement are combined such that each word starting with a capital letter, each numeric word and all identified named entities are being replaced with "XXX". Usage:
 
 ```javascript
 var input = "Max and Ben spent more than more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
