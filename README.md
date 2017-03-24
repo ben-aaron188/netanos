@@ -6,7 +6,7 @@ Computer-automated context-preserving text anonymization.
 cocopta (**Co**mputer-automated **co**ntext-**p**reserving **t**ext **a**nonymization) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of cocopta is that the anonymization preserves context that allow linguistic analyses on anonymized texts.
 
 ## Dependencies
-Cocopta relies on Stanford's Named Entity Recognizer (Finkel, J. R., Grenager, T. & Manning, C., 2005), a library written in Java. Therefore, this library is required to use cocopta. You can download it [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before cocopta can be used. This can be done as follows (with Stanford NER running on port 8080 (as an example)):
+cocopta relies on Stanford's Named Entity Recognizer (Finkel, J. R., Grenager, T. & Manning, C., 2005), a library written in Java. Therefore, this library is required to use cocopta. You can download it [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before cocopta can be used. This can be done as follows (with Stanford NER running on port 8080 (as an example)):
 
 ```
 $ java -mx1000m -cp "$scriptdir/stanford-ner.jar:$scriptdir/lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier $scriptdir/classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
