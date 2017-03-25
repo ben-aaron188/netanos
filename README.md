@@ -62,33 +62,33 @@ cocopta offers the following functionality:
 1. **Context-preserving replacement (key feature)**: each identified entity will be replaced with a numbered generic replacement depending on the entity type (e.g. Peter -> [PERSON_1], Chicago -> [LOCATION\_1]). Usage:
 
 ```javascript
-var input = "Max and Ben spent more than more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
+var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
 cocopta.anon(input, function(output) {
     console.log(output);
 });
 
 /*
-"[PERSON1] and [PERSON2] spent more than more than [DATE/TIME1] on writing the software. They started in [DATE/TIME2] in [LOCATION_1]."
+"[PERSON1] and [PERSON2] spent more than [DATE/TIME1] on writing the software. They started in [DATE/TIME2] in [LOCATION_1]."
 */
 ```
 2. **Named entity-based replacement**: each identified entity will be replaced with a different entity of the same type (e.g. Peter -> Alfred, Chicago -> London). Usage:
 
 ```javascript
-var input = "Max and Ben spent more than more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
+var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
 cocopta.ner(input, function(output) {
     console.log(output);
 });
 
 /*
-“Barry and Rick spent more than more than 1000 hours on writing the software. They started in January 14 2016 in Odessa.”
+“Barry and Rick spent more than 1000 hours on writing the software. They started in January 14 2016 in Odessa.”
 */
 ```
 3. **Non-context preserving replacement**: this approach is not based on named entities and replaces every word starting with a capital letter and every numeric word with "XXX" instead. Usage:
 
 ```javascript
-var input = "Max and Ben spent more than more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
+var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
 /* 
 Note that the non-context preserving replacement is not asynchronous as it does not rely on the named entitiy recognition.
@@ -98,20 +98,20 @@ var anonymized = cocopta.noncontext(input);
 console.log(anonymized);
 
 /*
-“XXX and XXX spent more than more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”
+“XXX and XXX spent more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”
 */
 ```
 4. **Combined, non-context preserving anonymization**: here the non-context preserving replacement and the named entity-based replacement are combined such that each word starting with a capital letter, each numeric word and all identified named entities are being replaced with "XXX". Usage:
 
 ```javascript
-var input = "Max and Ben spent more than more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
+var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
 cocopta.combined(input, function(output) {
   	console.log(output);
 });
 
 /*
-“XXX and XXX spent more than more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.”
+“XXX and XXX spent more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.”
 */
 ```
 
