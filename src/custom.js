@@ -111,7 +111,7 @@ Custom.capitalise_array_entries = function () {
 Custom.not_replacable = function (date) {
     var upper_irreplacables = Custom.capitalise_array_entries();
 
-    if (Util.inArray(date, irreplacables) || Util.inArray(date, upper_irreplacables)) {
+    if (Util.ident_inArray(date, irreplacables) || Util.ident_inArray(date, upper_irreplacables)) {
         return true;
     } else {
         return false;

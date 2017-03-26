@@ -37,7 +37,7 @@ cocopta.ner(input, function(output) {
 });
 
 /*
-"Barry and Rick spent more than 1000 hours on writing the software. They started in January 14 2016 in Odessa."
+"Barry and Rick spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa."
 */
 ```
 
@@ -52,7 +52,7 @@ cocopta.ner(input, function(output) {
 });
 
 /*
-"Barry and Rick spent more than 1000 hours on writing the software. They started in January 14 2016 in Odessa."
+"Barry and Rick spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa."
 */
 ```
 
@@ -82,7 +82,7 @@ cocopta.ner(input, function(output) {
 });
 
 /*
-“Barry and Rick spent more than 1000 hours on writing the software. They started in January 14 2016 in Odessa.”
+“Barry and Rick spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa.”
 */
 ```
 3. **Non-context preserving replacement** (`cocopta.noncontext`): this approach is not based on named entities and replaces every word starting with a capital letter and every numeric value with "XXX".
