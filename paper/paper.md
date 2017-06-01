@@ -1,5 +1,5 @@
 ---
-title: 'cocopta.js - Computer-automated context-preserving text anonymization with JavaScript'
+title: 'Netanos - Named entity-based Text Anonymization for Open Science.
 tags:
  - example
  - tags
@@ -24,7 +24,7 @@ Both authors contributed equally to the development of this tool and are listed 
 
 # Summary
 
-cocopta (computer-automated context-preserving text anonymization) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of cocopta is that the anonymization preserves context that allow linguistic analyses on anonymized texts. Consider the example string “Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.”
+Netanos (named entity-based text anonymization for open science) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of Netanos is that the anonymization preserves context that allow linguistic analyses on anonymized texts. Consider the example string “Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.”
 
 Its architecture relies on two software libraries capable of identifying named entities. (1) The Stanford Named Entity Recognizer (NER, Finkel et al., 2005) integrated with the ner Node.js package (Srivastava, 2016), and (2) the NLP-compromise JavaScript frontend-library (Kelly, 2016). Both libraries are used in a layered architecture (see Figure 1) to identify persons (e.g. “Max”, “Ben”), locations (e.g. “Amsterdam”, “Munich”), organizations (e.g. “Google”), dates (e.g. “August 2016”), and values (e.g. “42”).
 
@@ -34,7 +34,7 @@ Specifically, the text anonymization is achieved with the following stepwise pro
 * All identified entities are replaced with their context-preserving anonymized versions
 * NLP-compromise's named entity recognition tool is applied to identify potentially remaining, unrecognized entities
 
-Besides the key feature of context preserving text anonymization, cocopta also provides three alternative anonymization types. All anonymization types are illustrated below:
+Besides the key feature of context preserving text anonymization, Netanos also provides three alternative anonymization types. All anonymization types are illustrated below:
 
 1. **Context-preserving replacement** (key feature)
 

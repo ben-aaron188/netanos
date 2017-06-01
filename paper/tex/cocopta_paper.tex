@@ -1,9 +1,10 @@
 \documentclass{article}
 \usepackage{authblk}
+\usepackage{palatino}
 \usepackage{graphicx}
 \usepackage[left=1.2 in,top=1.5in,right=1.2 in,bottom=1.0in]{geometry} 
 \graphicspath{ {images/} }
-\title{\vspace{-2.0cm}cocopta.js - Computer-automated context-preserving text anonymization with JavaScript
+\title{\vspace{-2.0cm}Netanos -  Named entity-based Text Anonymization for Open Science
 }
 \author[1,$\dagger$]{Bennett Kleinberg}
 \author[2,$\dagger$]{Maximilian Mozes}
@@ -17,11 +18,11 @@
 \maketitle
 
 \noindent \textbf{Paper DOI:} (later) \\
-\textbf{Software Repository:} https://github.com/ben-aaron188/cocopta \\
+\textbf{Software Repository:} https://github.com/ben-aaron188/Netanos \\
 \textbf{Software Archive:} (later)
 
 \section*{Summary}
-cocopta (computer-automated context-preserving text anonymization) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of cocopta is that the anonymization preserves context that allow linguistic analyses on anonymized texts. Consider the example string "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam." \\\\
+Netanos (named entity-based text anonymization for open science) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of Netanos is that the anonymization preserves context that allow linguistic analyses on anonymized texts. Consider the example string "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam." \\\\
 \noindent Its architecture relies on two software libraries capable of identifying named entities. (1) The Stanford Named Entity Recognizer (NER, Finkel et al., 2005) integrated with the ner Node.js package (Srivastava, 2016), and (2) the NLP-compromise JavaScript frontend-library (Kelly, 2016). Both libraries are used in a layered architecture (see Figure 1) to identify persons (e.g. "Max", "Ben"), locations (e.g. "Amsterdam", "Munich"), organizations (e.g. "Google"), dates (e.g. "August 2016"), and values (e.g. "42"). \\\\
 \noindent Specifically, the text anonymization is achieved with the following stepwise procedure:
 \begin{enumerate} \itemsep -2pt
@@ -29,7 +30,7 @@ cocopta (computer-automated context-preserving text anonymization) is a natural 
 \item All identified entities are replaced with their context-preserving anonymized versions
 \item NLP-compromise's named entity recognition tool is applied to identify potentially remaining, unrecognized entities
 \end{enumerate}
-Besides the key feature of context preserving text anonymization, cocopta also provides three alternative anonymization types. All anonymization types are illustrated below:
+Besides the key feature of context preserving text anonymization, Netanos also provides three alternative anonymization types. All anonymization types are illustrated below:
 \begin{itemize} \itemsep -2pt
 \item \textbf{Context-preserving replacement} (key feature) \\
 Identified named entity types are replaced with a composite string consisting of the entity type and the corresponding index of occurrence
