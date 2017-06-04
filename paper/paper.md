@@ -10,7 +10,7 @@ authors:
    orcid: 0000-0000-0000-0000
    affiliation: 1
 - name: Maximilian Mozes
-   orcid: 0000-0000-0000-0000
+   orcid: 0000-0001-8138-3792
    affiliation: 2
 affiliations:
  - name: University of Amsterdam, The Netherlands
@@ -32,11 +32,11 @@ Specifically, the text anonymization is achieved with the following stepwise pro
 
 Besides the key feature of context preserving text anonymization, Netanos also provides three alternative anonymization types. 
 
-- Context-preserving anonymization (key feature): Identified named entity types are replaced with a composite string consisting of the entity type and the corresponding index of occurrence. *“[PERSON1] and [PERSON2] spent more than [DATE/TIME1] on writing the software. They started in [DATE/TIME2] in [LOCATION_1].”*
+- Context-preserving anonymization (key feature): Identified named entity types are replaced with a composite string consisting of the entity type and the corresponding index of occurrence. *“[PERSON_1] and [PERSON_2] spent more than [DATE/TIME_1] on writing the software. They started in [DATE/TIME_2] in [LOCATION_1].”*
 
 - Named entity-based replacement: Identified entities are replaced with a different, randomly chosen named entity of the same type. “Barry and Rick spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa.”
 
-- Non-context preserving anonymization: This replacement type is inspired by the anonymization procedure suggested by the UK Data Service (REF). It replaces all strings having a capital first letter and all numeric values with XXX. *“XXX and XXX spent more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”*
+- Non-context preserving anonymization: This replacement type is inspired by the anonymization procedure suggested by the UK Data Service (UK Data Service). It replaces all strings having a capital first letter and all numeric values with XXX. *“XXX and XXX spent more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”*
 
 - Combined, non-context preserving anonymization: The context-preserving replacement is used to identify candidates for replacement that are then replaced with the procedure of the non-context preserving replacement *“XXX and XXX spent more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.”* 
 
@@ -54,14 +54,14 @@ The software architecture of NETANOS is illustrated in the following technical p
 
 The software documentation for NETANOS with working examples and installation guidelines is available [here](https://github.com/ben-aaron188/netanos/blob/master/README.md). 
 
-The NETANOS tool has been experimentally validated on the potential re-identifiability of anonymized texts. A preprint to that paper is available on the [Open Science Framework preprint server](https://osf.io/w9nhb/)
+The NETANOS tool has been experimentally validated on the potential re-identifiability of anonymized texts. A preprint to that paper is available on the [Open Science Framework preprint server](https://osf.io/w9nhb/).
 
 
 
 # References
 
 * Finkel, J. R., Grenager, T. & Manning, C. (2005, June). _Incorporating non-local information into information extraction systems by gibbs sampling_. In Proceedings of the 43rd annual meeting on association for computational linguistics (pp. 363-370). Association for Computational Linguistics.
-* Kelly, S. (2016), *NLP Compromise: Natural language processing in javascript*, GitHub repository, https://github.com/nlpcompromise/compromise
-* Srivastava, N. (2016), *ner: Client for Stanford Named Entity Reconginiton*, GitHub repository, https://github.com/niksrc/ner
-* UK Data Service (no date) ukds.tools.textAnonHelper / Home [BitBucket Wiki]. Retrieved February 25, 2017, from https://bitbucket.org/ukda/ukds.tools.textanonhelper/wiki/Home
+* Kelly, S. (2016), *NLP Compromise: Natural language processing in javascript*, GitHub repository, https://github.com/nlpcompromise/compromise.
+* Srivastava, N. (2016), *ner: Client for Stanford Named Entity Reconginiton*, GitHub repository, https://github.com/niksrc/ner.
+* UK Data Service (no date) ukds.tools.textAnonHelper / Home [BitBucket Wiki]. Retrieved February 25, 2017, from https://bitbucket.org/ukda/ukds.tools.textanonhelper/wiki/Home.
 * Warmelink, L., Vrij, A., Mann, S., & Granhag, P. A. (2013). Spatial and temporal details in intentions: A cue to detecting deception. *Applied Cognitive Psychology*, *27*(1), 101-106.
