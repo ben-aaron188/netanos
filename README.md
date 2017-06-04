@@ -1,21 +1,47 @@
 # Summary
 Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts. 
 
-## Dependencies
+## Installation, usage, and dependencies
 NETANOS requires Stanford's Named Entity Recognizer (Finkel, Grenager, & Manning, 2005). You can download the Java distribution [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before NETANOS can be used. This can be done as follows (with Stanford NER running on port 8080):
 
-```java
+```shell
 $ java -mx1000m -cp "$scriptdir/stanford-ner.jar:$scriptdir/lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier $scriptdir/classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
 ```
 
 where `$scriptidr` is the path to the library.
+
+Alternative solution:
+
+- go to the directory `netanos/libs/stanford-ner/` and run the following command (in Terminal) after unzipping the downloaded Stanford NER file:
+
+```bash
+$ java -mx1000m -cp "stanford-ner.jar:lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
+```
+
+- once you started the Java-Server, keep it running and navigate to the directory `./netanos` to run your anonymization script with `node run.js`
+- after you've finished, you can end the server with `crtl + c`
+
+
 
 Furthermore, NETANOS relies on the following node.js-dependencies:
 
 * **ner** (https://github.com/niksrc/ner)
 * **promise** (https://github.com/then/promise)
 
-## Installation & Usage
+
+
+### Installing NETANOS (after Stanford's NER is downloaded)
+
+You can use `npm install` or compile NETANOS from source. For both installation types, make sure you've got the `Node.js` dependencies installed:
+
+- Install the Stanford NER Java distribution (see above for the exact command)
+- Open terminal and install the dependencies.
+
+```javascript
+npm install ner
+npm install promise
+```
+
 #### 1. npm install
 
 NETANOS can easily be installed via [npm](). **NOT YET**!!!!!!!!!!!!!!!!!!
@@ -39,18 +65,13 @@ netanos.ner(input, function(output) {
 */
 ```
 
+
+
 #### 2. Compile from source
 
 Alternatively, the NETANOS source-code can be integrated manually with the `Netanos.js` file as user endpoint.
 
-1. Open terminal and install the dependencies.
-
-```javascript
-npm install ner
-npm install promise
-```
-
-2. Access `run.js` to set the input of your string.
+1. Access `run.js` to set the input of your string.
 
 ```javascript
 var netanos = require("./Netanos.js");
@@ -65,7 +86,7 @@ netanos.ner(input, function(output) {
 */
 ```
 
-3. In Terminal, run the `run.js` script:
+2. In Terminal, run the `run.js` script:
 
 ```
 node run.js
@@ -137,4 +158,4 @@ netanos.combined(input, function(output) {
 
 ## License
 
-GNU General Public License v3.0 © [Bennett Kleinberg](http://bkleinberg.net) & [Maximilian Mozes](http://mmozes.net)
+MIT © [Bennett Kleinberg](http://bkleinberg.net) & [Maximilian Mozes](http://mmozes.net)

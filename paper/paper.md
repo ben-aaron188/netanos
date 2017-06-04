@@ -1,5 +1,5 @@
 ---
-title: 'NETANOS: Named entity-based Text Anonymization for Open Science.'
+title: 'NETANOS: Named entity-based Text Anonymization for Open Science'
 tags:
   - computational linguistics
   - text anonymization
@@ -24,7 +24,7 @@ bibliography: netanos.bib
 # Summary
 Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts. 
 
-Consider the example string “Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.” While coarse anonymization such as simple "XXX" replacement would suffice to mask the true content of the string, essential text properties are lost that are needed for secondary analyses. For example, content-based deception detection approaches rely on the number of specific times and dates to differentiate between deceptive and truthful texts (Warmelink et al., 2013).
+Consider the example string *“Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.”* While coarse anonymization such as simple "XXX" replacement would suffice to mask the true content of the string, essential text properties are lost that are needed for secondary analyses. For example, content-based deception detection approaches rely on the number of specific times and dates to differentiate between deceptive and truthful texts (Warmelink et al., 2013).
 
 The architecture of NETANOS relies on two software libraries capable of identifying named entities. (1) The Stanford Named Entity Recognizer (NER, Finkel et al., 2005) integrated with the ner Node.js package (Srivastava, 2016), and (2) the NLP-compromise JavaScript frontend-library (Kelly, 2016). Both libraries are used in a layered architecture  to identify persons (e.g. “Max”, “Ben”), locations (e.g. “Amsterdam”, “Munich”), organizations (e.g. “Google”), dates (e.g. “August 2016”), and values (e.g. “42”). 
 
