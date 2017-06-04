@@ -1,11 +1,6 @@
-
 var netanos = require("./Netanos.js");
+var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
-var val = "Steve and Bill met in New York City at Times Square 25 years ago.";
-
-
-netanos.anon(val, function(data) {
-    console.log(data);
+netanos.ner(input, function(output) {
+    console.log(output);
 });
-
-console.log(netanos.noncontext(val));

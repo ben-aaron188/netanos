@@ -23,7 +23,7 @@ NER.get_entities = function (string_input, type) {
             host: 'localhost'
         }, string_input, function (err, res) {
             if (err) {
-                reject(err)
+                reject(err);
             } else {
                 resolve(NER.replace_entities(NER.as_set(res.entities), string_input, type));
             }
@@ -31,7 +31,7 @@ NER.get_entities = function (string_input, type) {
     });
 
     return promise;
-}
+};
 
 
 /**
@@ -62,7 +62,7 @@ NER.as_set = function (entities) {
         "DATE": NER.replace_white_spaces(entities['DATE']),
     };
 
-}
+};
 
 NER.replace_white_spaces = function (entities) {
     if (entities) {
@@ -72,7 +72,7 @@ NER.replace_white_spaces = function (entities) {
     }
 
     return entities;
-}
+};
 
 /**
  * Checks whether the given string contains a special character and returns this character if true, false otherwise.
@@ -90,7 +90,7 @@ NER.get_extension = function (element) {
     }
 
     return false;
-}
+};
 
 /**
  * Normalizes the given input.
@@ -108,7 +108,7 @@ NER.adjust_term = function (stringinput) {
         return stringinput.toLowerCase();
     }
 
-}
+};
 
 NER.replace_pronouns = function (data) {
 
@@ -120,7 +120,7 @@ NER.replace_pronouns = function (data) {
     data = data.replace(/\.him |\.her /gi, ". [HIM/HER] ");
 
     return data;
-}
+};
 
 /**
  * Replaces all the recognised entities within a given text.
@@ -213,11 +213,11 @@ NER.replace_entities = function (entities, data, type) {
 NER.replace_currencies = function (data) {
     data = data.replace(/€/g, '');
     return data.replace(/\$/g, '');
-}
+};
 
 NER.adjust_currency = function (currency) {
     return parseFloat(currency.replace(/[^\d\.]/g, '')).toString();
-}
+};
 
 NER.get_replacement = function (property, entity, type, replaced) {
     var replacement = _NamedEntityReplacement().ext_get_replacement(property, entity, type);
@@ -232,7 +232,7 @@ NER.get_replacement = function (property, entity, type, replaced) {
         return replacement;
     }
 
-}
+};
 
 function _Compromise() {
     if (!Compromise) {

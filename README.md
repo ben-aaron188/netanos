@@ -1,12 +1,8 @@
-# Netanos
-
-Named entity-based Text Anonymization for Open Science.
-
-## Summary
-Netanos (**n**amed **e**ntity-based **t**ext **an**onymization for **o**pen **s**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of netanos is the preservation of context in the anonymization to allow for subsequent linguistic analyses on anonymized texts.
+# Summary
+Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts. 
 
 ## Dependencies
-netanos requires Stanford's Named Entity Recognizer (Finkel, Grenager, & Manning, 2005). You can download the Java distribution [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before netanos can be used. This can be done as follows (with Stanford NER running on port 8080):
+NETANOS requires Stanford's Named Entity Recognizer (Finkel, Grenager, & Manning, 2005). You can download the Java distribution [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before NETANOS can be used. This can be done as follows (with Stanford NER running on port 8080):
 
 ```java
 $ java -mx1000m -cp "$scriptdir/stanford-ner.jar:$scriptdir/lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier $scriptdir/classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
@@ -14,13 +10,15 @@ $ java -mx1000m -cp "$scriptdir/stanford-ner.jar:$scriptdir/lib/*" edu.stanford.
 
 where `$scriptidr` is the path to the library.
 
-Furthermore, netanos relies on the following node.js-dependencies:
+Furthermore, NETANOS relies on the following node.js-dependencies:
 
 * **ner** (https://github.com/niksrc/ner)
 * **promise** (https://github.com/then/promise)
 
 ## Installation & Usage
-netanos can easily be installed via npm. **NOT YET**
+#### 1. npm install
+
+NETANOS can easily be installed via [npm](). **NOT YET**!!!!!!!!!!!!!!!!!!
 
 ```
 $ npm install netanos
@@ -41,7 +39,18 @@ netanos.ner(input, function(output) {
 */
 ```
 
-Alternatively, the netanos source-code can be integrated manually with the `Netanos.js` file as user endpoint:  
+#### 2. Compile from source
+
+Alternatively, the NETANOS source-code can be integrated manually with the `Netanos.js` file as user endpoint.
+
+1. Open terminal and install the dependencies.
+
+```javascript
+npm install ner
+npm install promise
+```
+
+2. Access `run.js` to set the input of your string.
 
 ```javascript
 var netanos = require("./Netanos.js");
@@ -56,10 +65,19 @@ netanos.ner(input, function(output) {
 */
 ```
 
-## Documentation
-netanos offers the following functionality:
+3. In Terminal, run the `run.js` script:
 
-1. **Context-preserving replacement** (`netanos.anon`): each identified entity is replaced with an indexed generic replacement of the entity type (e.g. Peter -> [PERSON_1], Chicago -> [LOCATION\_1]).
+```
+node run.js
+```
+
+
+
+## Documentation
+
+NETANOS offers the following functionality:
+
+1. **Context-preserving anonymization** (`netanos.anon`): each identified entity is replaced with an indexed generic replacement of the entity type (e.g. Peter -> [PERSON_1], Chicago -> [LOCATION\_1]).
 
 ```javascript
 var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
@@ -85,7 +103,7 @@ netanos.ner(input, function(output) {
 “Barry and Rick spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa.”
 */
 ```
-3. **Non-context preserving replacement** (`netanos.noncontext`): this approach is not based on named entities and replaces every word starting with a capital letter and every numeric value with "XXX".
+3. **Non-context preserving anonymization** (`netanos.noncontext`): this approach is not based on named entities and replaces every word starting with a capital letter and every numeric value with "XXX".
 
 ```javascript
 var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
@@ -115,10 +133,8 @@ netanos.combined(input, function(output) {
 */
 ```
 
-## References
 
-* Finkel, J. R., Grenager, T. & Manning, C. (2005, June). _Incorporating non-local information into information extraction systems by gibbs sampling_. In Proceedings of the 43rd annual meeting on association for computational linguistics (pp. 363-370). Association for Computational Linguistics.
 
 ## License
 
-GNU © [Bennett Kleinberg](http://bkleinberg.net) & [Maximilian Mozes](http://mmozes.net)
+GNU General Public License v3.0 © [Bennett Kleinberg](http://bkleinberg.net) & [Maximilian Mozes](http://mmozes.net)
