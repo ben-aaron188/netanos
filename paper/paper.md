@@ -7,7 +7,7 @@ tags:
   - named entity recognition
 authors:
  - name: Bennett Kleinberg
-   orcid: 0000-0000-0000-0000
+   orcid: 0000-0003-1658-9086
    affiliation: 1
 - name: Maximilian Mozes
    orcid: 0000-0001-8138-3792
