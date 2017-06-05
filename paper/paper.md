@@ -46,7 +46,7 @@ Besides the key feature of context preserving text anonymization, Netanos also p
 
 ### Technical Pipeline
 
-The software architecture of NETANOS is illustrated in the following technical pipeline on FigShare: [LINK TO FIGSHARE](LINK HERE!!!)
+The software architecture of NETANOS is illustrated in the following technical pipeline on [FigShare](https://figshare.com/s/fe13585ae5e482601ce5).
 
 
 
