@@ -18,7 +18,7 @@ affiliations:
  - name: Technical University of Munich, Germany
    index: 2
 date: 5 June 2017
-bibliography: netanos.bib
+bibliography: paper.bib
 note: 'Both authors contributed equally to the development of this tool and are listed in
 alphabetical order.'
 ---
