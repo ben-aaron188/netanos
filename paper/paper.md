@@ -1,5 +1,5 @@
 ---
-title: 'NETANOS: Named entity-based Text Anonymization for Open Science'
+title: 'Web-based text anonymization with Node.js: Introducing NETANOS (Named entity-based Text Anonymization for Open Science)'
 tags:
   - computational linguistics
   - text anonymization
@@ -19,6 +19,8 @@ affiliations:
    index: 2
 date: 5 June 2017
 bibliography: netanos.bib
+note: 'Both authors contributed equally to the development of this tool and are listed in
+alphabetical order.'
 ---
 
 # Summary

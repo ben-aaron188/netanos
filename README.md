@@ -30,6 +30,7 @@ Furthermore, NETANOS relies on the following node.js-dependencies:
 
 
 
+
 ### Installing NETANOS (after Stanford's NER is downloaded)
 
 You can use `npm install` or compile NETANOS from source. For both installation types, make sure you've got the `Node.js` dependencies installed:
