@@ -53,7 +53,7 @@ $ npm install netanos
 The integration is illustrated below. The anonymization function takes the input string and a callback function as arguments and returns the anonymized string via the callback.
 
 ```javascript
-var netanos = require("Netanos"); //note that this is different from the filepath in the from-source installation
+var netanos = require("netanos"); //note that this is different from the filepath in the from-source installation
 var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
 netanos.ner(input, function(output) {
