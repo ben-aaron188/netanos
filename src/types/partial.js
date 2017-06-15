@@ -51,7 +51,7 @@ Partial.partial_replacement = function (original, data, replacements) {
         }
     }
 
-    console.log(Partial.replace_capital_firsts(original));
+    return Partial.replace_capital_firsts(original);
 }
 
 Partial.replace_capital_firsts = function (output) {

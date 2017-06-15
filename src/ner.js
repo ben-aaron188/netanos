@@ -193,7 +193,7 @@ NER.replace_entities = function (entities, data, type) {
     }
 
     if (type == 2) {
-        _Partial().partial_replacement(first, data, replacements);
+        return _Partial().partial_replacement(first, data, replacements);
     } else {
         var res = _Compromise().fine_tuning(data, organizations, locations, persons, dates, replaced, type);
         var output = res.replaced;
