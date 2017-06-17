@@ -109,7 +109,7 @@ netanos.anon(input, function(output) {
 });
 
 /*
-"[PERSON1] and [PERSON2] spent more than [DATE/TIME1] on writing the software. They started in [DATE/TIME2] in [LOCATION_1]."
+"[PERSON_1] and [PERSON_2] spent more than [DATE/TIME_1] on writing the software. They started in [DATE/TIME_2] in [LOCATION_1]."
 */
 ```
 2. **Named entity-based replacement** (`netanos.ner`): each identified entity will be replaced with a different entity of the same type (e.g. Peter -> Alfred, Chicago -> London).

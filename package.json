@@ -4,7 +4,7 @@
   "description": "NETANOS: Named entity-based Text Anonymization for Open Science",
   "main": "Netanos.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
     "computationallinguistics"
   ],
   "author": "Bennett Kleinberg (bkleiberg.net) Maximilian Mozes (mmozes.net)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.4.2"
+  }
 }

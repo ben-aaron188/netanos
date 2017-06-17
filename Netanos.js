@@ -22,7 +22,7 @@ Netanos.noncontext = function (string_input) {
 };
 
 Netanos.combined = function (string_input, callback) {
-    NER.get_entities(Mock.mock(string_input).replace('"', ''), 1).then(function (str) {
+    NER.get_entities(NonContext.anon(string_input), 1).then(function (str) {
         callback(str);
     });
 };
