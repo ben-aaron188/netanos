@@ -1,6 +1,6 @@
 {
   "name": "netanos",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "NETANOS: Named entity-based Text Anonymization for Open Science",
   "main": "Netanos.js",
   "scripts": {
