@@ -3,6 +3,23 @@ var netanos = require('../Netanos.js');
 var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
 
 /**
+ * Test for named entity-based replacement (netanos.ner): each identified entity will be replaced with a different
+ * entity of the same type (e.g. Peter -> Alfred, Chicago -> London).
+ */
+describe('Named entity-based replacement (ner)', function () {
+    it('should not contain the entities "Max", "Ben", "1000 hours", "August 2016" and "Amsterdam"', function (done) {
+        netanos.ner(input, function (output) {
+            assert.equal(output.indexOf("Max "), -1);
+            assert.equal(output.indexOf(" Ben "), -1);
+            assert.equal(output.indexOf(" 1000 hours "), -1);
+            assert.equal(output.indexOf(" August 2016 "), -1);
+            assert.equal(output.indexOf(" Amsterdam "), -1);
+            done();
+        });
+    });
+});
+
+/**
  * Test for context-preserving anonymization (netanos.anon): each identified entity is replaced with an indexed
  * generic replacement of the entity type (e.g. Peter -> [PERSON_1], Chicago -> [LOCATION_1]).
  */
