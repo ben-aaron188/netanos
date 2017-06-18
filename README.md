@@ -95,6 +95,14 @@ node run.js
 
 
 
+### Tests with `npm test`
+
+Once the Java server is running, you can test the functionality of NETANOS with `npm test`. To do this, make sure you've got the JavaScript test framework [mocha.js](https://mochajs.org) installed (use `npm install mocha`).
+
+The tests will run for all four core methods of NETANOS.
+
+
+
 ## Documentation
 
 NETANOS offers the following functionality:
@@ -154,6 +162,12 @@ netanos.combined(input, function(output) {
 “XXX and XXX spent more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.”
 */
 ```
+
+
+
+#### Contact
+
+projectnetanos@gmail.com
 
 
 
