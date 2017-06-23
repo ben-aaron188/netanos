@@ -19,5 +19,9 @@
   "license": "MIT",
   "devDependencies": {
     "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "ner": "^0.2.2",
+    "promise": "^8.0.0"
   }
 }

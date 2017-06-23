@@ -4,14 +4,6 @@ Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S*
 ## Installation, usage, and dependencies
 NETANOS requires Stanford's Named Entity Recognizer (Finkel, Grenager, & Manning, 2005). You can download the Java distribution [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before NETANOS can be used. This can be done as follows (with Stanford NER running on port 8080):
 
-```shell
-$ java -mx1000m -cp "$scriptdir/stanford-ner.jar:$scriptdir/lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier $scriptdir/classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
-```
-
-where `$scriptidr` is the path to the library.
-
-Alternative solution:
-
 - go to the directory `netanos/libs/stanford-ner/` and run the following command (in Terminal) after unzipping the downloaded Stanford NER file:
 
 ```bash
