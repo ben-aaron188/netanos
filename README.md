@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/86087510.svg)](https://zenodo.org/badge/latestdoi/86087510)
+
 # Summary
 Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts.
 
