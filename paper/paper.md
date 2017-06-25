@@ -26,9 +26,9 @@ alphabetical order.'
 # Summary
 Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts.
 
-Consider the example string *“Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.”* While coarse anonymization such as simple "XXX" replacement would suffice to mask the true content of the string, essential text properties are lost that are needed for secondary analyses. For example, content-based deception detection approaches rely on the number of specific times and dates to differentiate between deceptive and truthful texts (Warmelink et al., 2013).
+Consider the example string *“Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.”* While coarse anonymization such as simple "XXX" replacement would suffice to mask the true content of the string, essential text properties are lost that are needed for secondary analyses. For example, content-based deception detection approaches rely on the number of specific times and dates to differentiate between deceptive and truthful texts [@warmelink2013].
 
-The architecture of NETANOS relies on two software libraries capable of identifying named entities. (1) The Stanford Named Entity Recognizer (NER, Finkel et al., 2005) integrated with the ner Node.js package (Srivastava, 2016), and (2) the NLP-compromise JavaScript frontend-library (Kelly, 2016). Both libraries are used in a layered architecture  to identify persons (e.g. “Max”, “Ben”), locations (e.g. “Amsterdam”, “Munich”), organizations (e.g. “Google”), dates (e.g. “August 2016”), and values (e.g. “42”).
+The architecture of NETANOS relies on two software libraries capable of identifying named entities. (1) The Stanford Named Entity Recognizer (NER) [@finkel2005] integrated with the ner Node.js package [@srivastava2016], and (2) the NLP-compromise JavaScript frontend-library [@kelly2016]. Both libraries are used in a layered architecture  to identify persons (e.g. “Max”, “Ben”), locations (e.g. “Amsterdam”, “Munich”), organizations (e.g. “Google”), dates (e.g. “August 2016”), and values (e.g. “42”).
 
 Specifically, the text anonymization is achieved with the following stepwise procedure: The input string is analyzed by Stanford's NER, identifying organizations, locations, persons, and dates. All identified entities are replaced with their context-preserving anonymized versions. NLP-compromise's named entity recognition tool is applied to identify potentially remaining, unrecognized entities.
 
@@ -38,7 +38,7 @@ Besides the key feature of context preserving text anonymization, Netanos also p
 
 - Named entity-based replacement: Identified entities are replaced with a different, randomly chosen named entity of the same type. “Barry and Rick spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa.”
 
-- Non-context preserving anonymization: This replacement type is inspired by the anonymization procedure suggested by the UK Data Service (UK Data Service). It replaces all strings having a capital first letter and all numeric values with XXX. *“XXX and XXX spent more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”*
+- Non-context preserving anonymization: This replacement type is inspired by the anonymization procedure suggested by the UK Data Service [@ukda]. It replaces all strings having a capital first letter and all numeric values with XXX. *“XXX and XXX spent more than XXX hours on writing the software. XXX started in XXX XXX in XXX.”*
 
 - Combined, non-context preserving anonymization: The context-preserving replacement is used to identify candidates for replacement that are then replaced with the procedure of the non-context preserving replacement *“XXX and XXX spent more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.”*
 
@@ -61,9 +61,3 @@ The NETANOS tool has been experimentally validated on the potential re-identifia
 
 
 # References
-
-* Finkel, J. R., Grenager, T. & Manning, C. (2005, June). _Incorporating non-local information into information extraction systems by gibbs sampling_. In Proceedings of the 43rd annual meeting on association for computational linguistics (pp. 363-370). Association for Computational Linguistics. doi: 10.3115/1219840.1219885.
-* Kelly, S. (2016), *NLP Compromise: Natural language processing in javascript*, GitHub repository, https://github.com/nlp-compromise/compromise.
-* Srivastava, N. (2016), *ner: Client for Stanford Named Entity Reconginiton*, GitHub repository, https://github.com/niksrc/ner.
-* UK Data Service (no date) ukds.tools.textAnonHelper / Home [BitBucket Wiki]. Retrieved February 25, 2017, from https://bitbucket.org/ukda/ukds.tools.textanonhelper/wiki/Home.
-* Warmelink, L., Vrij, A., Mann, S., & Granhag, P. A. (2013). Spatial and temporal details in intentions: A cue to detecting deception. *Applied Cognitive Psychology*, *27*(1), 101-106. doi: 10.1002/acp.2878.
