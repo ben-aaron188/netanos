@@ -4,6 +4,7 @@ var Compromise = null;
 var Util = null;
 var NamedEntityReplacement = null;
 var Partial = null;
+var Logs = null;
 
 
 function NER() {
@@ -15,7 +16,7 @@ function NER() {
  *
  * @param {String} file The name of the given file name
  */
-NER.get_entities = function (string_input, type) {
+NER.get_entities = function (string_input, type, limitations) {
 
     var promise = new Promise(function (resolve, reject) {
         ner.get({
@@ -23,13 +24,16 @@ NER.get_entities = function (string_input, type) {
             host: 'localhost'
         }, string_input, function (err, res) {
             if (err) {
+                _Logs().write_error("Java server offline!");
+
                 reject(err);
             } else {
-                resolve(NER.replace_entities(NER.as_set(res.entities), string_input, type));
+                resolve(NER.replace_entities(NER.as_set(res.entities), string_input, type, limitations));
             }
         });
     });
 
+    _Partial().reset();
     return promise;
 };
 
@@ -127,7 +131,7 @@ NER.replace_pronouns = function (data) {
  *
  * @param {String} entities The recognised entities
  */
-NER.replace_entities = function (entities, data, type) {
+NER.replace_entities = function (entities, data, type, limitations) {
     var organizations = [],
         locations = [],
         persons = [],
@@ -146,7 +150,7 @@ NER.replace_entities = function (entities, data, type) {
                 var entity = entities[property][i],
                     replacement = null;
 
-                if (property == 'MONEY') {
+                if (property == 'MONEY' && limitations.currency) {
                     entity = NER.adjust_currency(entity);
                 }
                 if (type == 1) {
@@ -155,11 +159,11 @@ NER.replace_entities = function (entities, data, type) {
                     replacement = NER.get_replacement(property, entity, type, replaced);
 
                     replaced.push(replacement);
-                    if (property == 'ORGANIZATION') {
+                    if (property == 'ORGANIZATION' && limitations.organization) {
                         organizations.push(replacement);
-                    } else if (property == 'LOCATION') {
+                    } else if (property == 'LOCATION' && limitations.location) {
                         locations.push(replacement);
-                    } else if (property == 'PERSON') {
+                    } else if (property == 'PERSON' && limitations.person) {
                         res = _Compromise().smart_name_rep(data, entity, replacement);
                         data = res.data;
                         if (res.entities) {
@@ -169,13 +173,12 @@ NER.replace_entities = function (entities, data, type) {
                             persons.push(res.re_last);
                         }
                         persons.push(replacement);
-                    } else if (property == "DATE") {
+                    } else if (property == "DATE" && limitations.date) {
                         dates.push(replacement);
                     }
                 }
 
-                if (data.indexOf(entity) != -1) {
-
+                if (data.indexOf(entity) != -1 && NER.property_valid(property, limitations)) {
                     replacements.push(
                         {
                             index: data.indexOf(entity),
@@ -192,23 +195,97 @@ NER.replace_entities = function (entities, data, type) {
         }
     }
 
+    replacements = NER.filter_replacements(replacements, limitations);
+
     if (type == 2) {
-        return _Partial().partial_replacement(first, data, replacements);
+        return _Partial().partial_replacement(first, data, replacements, limitations);
     } else {
-        var res = _Compromise().fine_tuning(data, organizations, locations, persons, dates, replaced, type);
+        var res = _Compromise().fine_tuning(data, organizations, locations, persons, dates, replaced, type, limitations);
         var output = res.replaced;
 
         for (var i = 0; i < res.entities.length; i++) {
             entity_arr.push(res.entities[i]);
         }
 
-        if (type == 0) {
+        if (type == 0 && limitations.currency) {
             output = NER.replace_currencies(output);
         }
 
         return output;
     }
 };
+
+NER.property_valid = function(property, limitations) {
+    switch (property) {
+        case "LOCATION":
+            if (limitations.location) {
+                return true;
+            }
+            return false;
+        case "PERSON":
+            if (limitations.person) {
+                return true;
+            }
+            return false;
+        case "ORGANIZATION":
+            if (limitations.organization) {
+                return true;
+            }
+            return false;
+        case "DATE":
+            if (limitations.date) {
+                return true;
+            }
+            return false;
+        case "MONEY":
+            if (limitations.currency) {
+                return true;
+            }
+            return false;
+        default:
+            return false;
+    }
+}
+
+NER.filter_replacements = function (replacements, limitations) {
+    var new_replacements = []
+
+    for (var i = 0; i < replacements.length; i++) {
+        var current = replacements[i];
+
+        switch (current.entity) {
+            case "LOCATION":
+                if (limitations.location) {
+                    new_replacements.push(current);
+                }
+                break;
+            case "PERSON":
+                if (limitations.person) {
+                    new_replacements.push(current);
+                }
+                break;
+            case "ORGANIZATION":
+                if (limitations.organization) {
+                    new_replacements.push(current);
+                }
+                break;
+            case "DATE":
+                if (limitations.date) {
+                    new_replacements.push(current);
+                }
+                break;
+            case "MONEY":
+                if (limitations.currency) {
+                    new_replacements.push(current);
+                }
+                break;
+            default:
+                new_replacements.push(current);
+        }
+    }
+
+    return new_replacements;
+}
 
 NER.replace_currencies = function (data) {
     data = data.replace(/€/g, '');
@@ -265,5 +342,15 @@ function _Partial() {
 
     return Partial;
 }
+
+
+function _Logs() {
+    if (!Logs) {
+        Logs = require("./logs.js");
+    }
+
+    return Logs;
+}
+
 
 module.exports = NER;

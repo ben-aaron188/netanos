@@ -1,7 +1,5 @@
-[![DOI](https://zenodo.org/badge/86087510.svg)](https://zenodo.org/badge/latestdoi/86087510)
-
 # Summary
-Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts.
+Netanos (**N**amed **E**ntity-based **T**ext **AN**onymization for **O**pen **S**cience) is a natural language processing software that anonymizes texts by identifying and replacing named entities. The key feature of NETANOS is that the anonymization preserves critical context that allows for secondary linguistic analyses on anonymized texts. 
 
 ## Installation, usage, and dependencies
 NETANOS requires Stanford's Named Entity Recognizer (Finkel, Grenager, & Manning, 2005). You can download the Java distribution [here](https://nlp.stanford.edu/software/CRF-NER.shtml). Once you have it downloaded, the Stanford NER needs to be executed before NETANOS can be used. This can be done as follows (with Stanford NER running on port 8080):
@@ -9,7 +7,7 @@ NETANOS requires Stanford's Named Entity Recognizer (Finkel, Grenager, & Manning
 - go to the directory `netanos/libs/stanford-ner/` and run the following command (in Terminal) after unzipping the downloaded Stanford NER file:
 
 ```bash
-$ java -mx1000m -cp "./stanford-ner.jar:lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
+$ java -mx1000m -cp "stanford-ner.jar:lib/*" edu.stanford.nlp.ie.NERServer  -loadClassifier classifiers/english.muc.7class.distsim.crf.ser.gz -port 8080 -outputFormat inlineXML
 ```
 
 - once you started the Java-Server, keep it running and navigate to the directory `./netanos` to run your anonymization script with `node run.js`
@@ -39,7 +37,7 @@ npm install promise
 
 #### 1. npm install
 
-NETANOS can easily be installed via [npm](https://www.npmjs.com/package/netanos).
+NETANOS can easily be installed via [npm](https://www.npmjs.com/package/netanos). 
 
 ```
 $ npm install netanos
