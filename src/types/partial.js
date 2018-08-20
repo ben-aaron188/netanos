@@ -45,7 +45,7 @@ Partial.partial_replacement = function (original, data, replacements, limitation
 
     for (var i = 0; i < replacements.length; i++) {
         var current = replacements[i];
-        var entity_regex = new RegExp(Partial.remove_invalide_chars(current.original), 'g');
+        var entity_regex = new RegExp(Partial.remove_invalid_chars(current.original), 'g');
 
         if (current.original != "a") {
             var replacer = Partial.ner_replace_unnamed("", current.entity);
@@ -58,7 +58,7 @@ Partial.partial_replacement = function (original, data, replacements, limitation
     return Partial.replace_capital_firsts(original);
 }
 
-Partial.remove_invalide_chars = function(string) {
+Partial.remove_invalid_chars = function(string) {
     var invalid_chars = /[°"§%()\[\]{}=\\?´`'#<>|,;.:+_-]+/g;
     return string.replace(invalid_chars, "");
 }
@@ -83,7 +83,7 @@ Partial.replace_capital_firsts = function (output) {
                         replacement = "[NUMERIC_" + this.entity_count[6] + "]";
                     }
 
-                    adj_string = adj_string.replace(new RegExp(Partial.remove_invalide_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                    adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
                 } else {
                     if (isNaN(split[i])) {
                         this.entity_count[5]++;
@@ -93,7 +93,7 @@ Partial.replace_capital_firsts = function (output) {
                         replacement = "[NUMERIC_" + this.entity_count[6] + "]";
                     }
 
-                    adj_string = adj_string.replace(new RegExp(Partial.remove_invalide_chars(split[i]), 'g'), replacement);
+                    adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
                 }
             }
         }
