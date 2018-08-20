@@ -160,7 +160,7 @@ netanos.ner(input, entities, function(output) {
 “Max and Ben spent more than 997 hours on writing the software. They started in January 14 2016 in Odessa.”
 */
 ```
-3. **Non-context preserving anonymization** (`netanos.noncontext`): this approach is not based on named entities and replaces every word starting with a capital letter and every numeric value with "XXX".
+3. **Non-context preserving anonymization** (`netanos.noncontext`): this approach is not based on named entities and replaces every word starting with a capital letter and every numeric value with "XXX". **Note that entity-specific anonymization is not compatible with this type**. 
 
 ```javascript
 var input = "Max and Ben spent more than 1000 hours on writing the software. They started in August 2016 in Amsterdam.";
