@@ -57,7 +57,10 @@ var entities = {
   organization: true,
   currency: true,
   date: true,
-  location: true
+  location: true,
+  pronoun: true,
+  numeric: true,
+  other: true
 };
 
 netanos.ner(input, entities, function(output) {
@@ -86,7 +89,10 @@ var entities = {
   organization: true,
   currency: true,
   date: true,
-  location: true
+  location: true,
+  pronoun: true,
+  numeric: true,
+  other: true
 };
 
 netanos.ner(input, entities, function(output) {
@@ -128,7 +134,10 @@ var entities = {
   organization: true,
   currency: true,
   date: true,
-  location: true
+  location: true,
+  pronoun: true,
+  numeric: true,
+  other: true
 };
 
 netanos.anon(input, entities, function(output) {
@@ -149,7 +158,10 @@ var entities = {
   organization: true,
   currency: true,
   date: true,
-  location: true
+  location: true,
+  pronoun: true,
+  numeric: true,
+  other: true
 };
 
 netanos.ner(input, entities, function(output) {
@@ -186,7 +198,10 @@ var entities = {
   organization: true,
   currency: true,
   date: true,
-  location: true
+  location: true,
+  pronoun: true,
+  numeric: true,
+  other: true
 };
 
 netanos.combined(input, entities, function(output) {

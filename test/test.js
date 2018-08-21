@@ -8,12 +8,15 @@ var input = "Max and Ben spent more than 1000 hours on writing the software. The
  */
 describe('Named entity-based replacement (ner)', function () {
     var limitations = {
-        date: true,
-        location: true,
+        person: true,
         organization: true,
         currency: true,
-        person: true
-    }
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
 
     it('should not contain the entities "Max", "Ben", "1000 hours", "August 2016" and "Amsterdam"', function (done) {
         netanos.ner(input, limitations, function (output) {
@@ -33,12 +36,15 @@ describe('Named entity-based replacement (ner)', function () {
  */
 describe('Specific named entity-based replacement (ner)', function () {
     var limitations = {
+        person: false,
+        organization: true,
+        currency: true,
         date: true,
         location: true,
-        organization: false,
-        currency: true,
-        person: false
-    }
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
 
     it('should not contain the entities "August 2016" and "Amsterdam", but "Max" and "Bennett"', function (done) {
         netanos.ner(input, limitations, function (output) {
@@ -59,12 +65,15 @@ describe('Context-preserving anonymization (anon)', function () {
     var anonymized = "[PERSON_1] and [PERSON_2] spent more than [DATE/TIME_1] on writing the software. They started in [DATE/TIME_2] in [LOCATION_1].";
 
     var limitations = {
-        date: true,
-        location: true,
+        person: true,
         organization: true,
         currency: true,
-        person: true
-    }
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
 
     it('should return ' + anonymized, function (done) {
         netanos.anon(input, limitations, function (output) {
@@ -83,12 +92,15 @@ describe('Combined, non-context preserving anonymization (combined)', function (
     var anonymized = "XXX and XXX spent more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.";
 
     var limitations = {
-        date: true,
-        location: true,
+        person: true,
         organization: true,
         currency: true,
-        person: true
-    }
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
 
     it('should return ' + anonymized, function (done) {
         netanos.combined(input, limitations, function (output) {

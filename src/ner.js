@@ -114,14 +114,15 @@ NER.adjust_term = function (stringinput) {
 
 };
 
-NER.replace_pronouns = function (data) {
-
-    data = data.replace(/ he | she /gi, " [HE/SHE] ");
-    data = data.replace(/\.he |\.she /gi, ". [HE/SHE] ");
-    data = data.replace(/ his | her /gi, " [HIS/HER] ");
-    data = data.replace(/\.his |\.her /gi, ". [HIS/HER] ");
-    data = data.replace(/ him | her /gi, " [HIM/HER] ");
-    data = data.replace(/\.him |\.her /gi, ". [HIM/HER] ");
+NER.replace_pronouns = function (data, limitations) {
+    if (limitations.pronoun) {
+        data = data.replace(/ he | she /gi, " [HE/SHE] ");
+        data = data.replace(/\.he |\.she /gi, ". [HE/SHE] ");
+        data = data.replace(/ his | her /gi, " [HIS/HER] ");
+        data = data.replace(/\.his |\.her /gi, ". [HIS/HER] ");
+        data = data.replace(/ him | her /gi, " [HIM/HER] ");
+        data = data.replace(/\.him |\.her /gi, ". [HIM/HER] ");
+    }
 
     return data;
 };
@@ -140,7 +141,7 @@ NER.replace_entities = function (entities, data, type, limitations) {
         replaced = [],
         replacements = [],
         entity_regex,
-        data = NER.replace_pronouns(data),
+        data = NER.replace_pronouns(data, limitations),
         first = data,
         res;
 
@@ -215,7 +216,7 @@ NER.replace_entities = function (entities, data, type, limitations) {
     }
 };
 
-NER.property_valid = function(property, limitations) {
+NER.property_valid = function (property, limitations) {
     switch (property) {
         case "LOCATION":
             if (limitations.location) {

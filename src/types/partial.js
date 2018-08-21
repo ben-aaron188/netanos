@@ -1,12 +1,13 @@
 var Util = require('../util.js');
 var NamedEntityReplacement = require('./namedEntity.js');
+
 // var this.entity_count = [0, 0, 0, 0, 0, 0, 0];
 
 function Partial() {
     this.entity_count = [0, 0, 0, 0, 0, 0, 0];
 }
 
-Partial.reset = function() {
+Partial.reset = function () {
     this.entity_count = [0, 0, 0, 0, 0, 0, 0];
 }
 
@@ -55,15 +56,15 @@ Partial.partial_replacement = function (original, data, replacements, limitation
         }
     }
 
-    return Partial.replace_capital_firsts(original);
+    return Partial.replace_capital_firsts(original, limitations);
 }
 
-Partial.remove_invalid_chars = function(string) {
+Partial.remove_invalid_chars = function (string) {
     var invalid_chars = /[°"§%()\[\]{}=\\?´`'#<>|,;.:+_-]+/g;
     return string.replace(invalid_chars, "");
 }
 
-Partial.replace_capital_firsts = function (output) {
+Partial.replace_capital_firsts = function (output, limitations) {
     var split = output.split(" "),
         adj_string = output,
         replacement;
@@ -76,24 +77,32 @@ Partial.replace_capital_firsts = function (output) {
 
                 if (split[i][split[i].length - 1] == ".") {
                     if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
-                        this.entity_count[5]++;
-                        replacement = "[OTHER_" + this.entity_count[5] + "]";
-                    } else {
+                        if (limitations.other) {
+                            this.entity_count[5]++;
+                            replacement = "[OTHER_" + this.entity_count[5] + "]";
+
+                            adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                        }
+                    } else if (limitations.numeric) {
                         this.entity_count[6]++;
                         replacement = "[NUMERIC_" + this.entity_count[6] + "]";
-                    }
 
-                    adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                        adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                    }
                 } else {
                     if (isNaN(split[i])) {
-                        this.entity_count[5]++;
-                        replacement = "[OTHER_" + this.entity_count[5] + "]";
-                    } else {
+                        if (limitations.other) {
+                            this.entity_count[5]++;
+                            replacement = "[OTHER_" + this.entity_count[5] + "]";
+
+                            adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                        }
+                    } else if (limitations.numeric) {
                         this.entity_count[6]++;
                         replacement = "[NUMERIC_" + this.entity_count[6] + "]";
-                    }
 
-                    adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                        adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                    }
                 }
             }
         }
