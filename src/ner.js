@@ -199,7 +199,7 @@ NER.replace_entities = function (entities, data, type, limitations) {
     replacements = NER.filter_replacements(replacements, limitations);
 
     if (type == 2) {
-        return _Partial().partial_replacement(first, data, replacements, limitations);
+        return _Partial().partial_replacement(first, data, replacements, limitations, entities);
     } else {
         var res = _Compromise().fine_tuning(data, organizations, locations, persons, dates, replaced, type, limitations);
         var output = res.replaced;

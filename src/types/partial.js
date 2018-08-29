@@ -11,7 +11,7 @@ Partial.reset = function () {
     this.entity_count = [0, 0, 0, 0, 0, 0, 0];
 }
 
-Partial.partial_replacement = function (original, data, replacements, limitations) {
+Partial.partial_replacement = function (original, data, replacements, limitations, entities) {
     var prep = NamedEntityReplacement.preprocess_string(original);
     var replaced = [];
 
@@ -56,7 +56,7 @@ Partial.partial_replacement = function (original, data, replacements, limitation
         }
     }
 
-    return Partial.replace_capital_firsts(original, limitations);
+    return Partial.replace_capital_firsts(original, limitations, entities);
 }
 
 Partial.remove_invalid_chars = function (string) {
@@ -64,44 +64,54 @@ Partial.remove_invalid_chars = function (string) {
     return string.replace(invalid_chars, "");
 }
 
-Partial.replace_capital_firsts = function (output, limitations) {
+Partial.replace_capital_firsts = function (output, limitations, entities) {
     var split = output.split(" "),
         adj_string = output,
         replacement;
 
     for (var i = 1; i < split.length; i++) {
-
         if (split[i].length > 0) {
-            if (split[i][0] === split[i][0].toUpperCase() && split[i][0] !== "[" && split[i - 1][split[i - 1].length - 1] != ".") {
 
+            valid_limitation = true;
 
-                if (split[i][split[i].length - 1] == ".") {
-                    if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
-                        if (limitations.other) {
-                            this.entity_count[5]++;
-                            replacement = "[OTHER_" + this.entity_count[5] + "]";
+            if (!limitations.person && entities.PERSON.indexOf(split[i]) != -1
+                || !limitations.location && entities.LOCATION.indexOf(split[i]) != -1
+                || !limitations.organization && entities.ORGANIZATION.indexOf(split[i]) != -1
+            ) {
+                valid_limitation = false;
+            }
+
+            if (valid_limitation) {
+                if (split[i][0] === split[i][0].toUpperCase() && split[i][0] !== "[" && split[i - 1][split[i - 1].length - 1] != ".") {
+
+                    if (split[i][split[i].length - 1] == ".") {
+                        if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
+                            if (limitations.other) {
+                                this.entity_count[5]++;
+                                replacement = "[OTHER_" + this.entity_count[5] + "]";
+
+                                adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                            }
+                        } else if (limitations.numeric) {
+                            this.entity_count[6]++;
+                            replacement = "[NUMERIC_" + this.entity_count[6] + "]";
 
                             adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
                         }
-                    } else if (limitations.numeric) {
-                        this.entity_count[6]++;
-                        replacement = "[NUMERIC_" + this.entity_count[6] + "]";
+                    } else {
+                        if (isNaN(split[i])) {
+                            if (limitations.other) {
+                                this.entity_count[5]++;
+                                replacement = "[OTHER_" + this.entity_count[5] + "]";
 
-                        adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
-                    }
-                } else {
-                    if (isNaN(split[i])) {
-                        if (limitations.other) {
-                            this.entity_count[5]++;
-                            replacement = "[OTHER_" + this.entity_count[5] + "]";
+                                adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                            }
+                        } else if (limitations.numeric) {
+                            this.entity_count[6]++;
+                            replacement = "[NUMERIC_" + this.entity_count[6] + "]";
 
                             adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
                         }
-                    } else if (limitations.numeric) {
-                        this.entity_count[6]++;
-                        replacement = "[NUMERIC_" + this.entity_count[6] + "]";
-
-                        adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
                     }
                 }
             }
