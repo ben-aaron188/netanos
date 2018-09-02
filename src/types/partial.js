@@ -72,11 +72,12 @@ Partial.replace_capital_firsts = function (output, limitations, entities) {
     for (var i = 1; i < split.length; i++) {
         if (split[i].length > 0) {
 
-            valid_limitation = true;
+            var valid_limitation = true;
+            var raw_split = Util.remove_term_terminator(split[i]);
 
-            if (!limitations.person && entities.PERSON.indexOf(split[i]) != -1
-                || !limitations.location && entities.LOCATION.indexOf(split[i]) != -1
-                || !limitations.organization && entities.ORGANIZATION.indexOf(split[i]) != -1
+            if (!limitations.person && entities.PERSON.indexOf(raw_split) != -1
+                || !limitations.location && entities.LOCATION.indexOf(raw_split) != -1
+                || !limitations.organization && entities.ORGANIZATION.indexOf(raw_split) != -1
             ) {
                 valid_limitation = false;
             }

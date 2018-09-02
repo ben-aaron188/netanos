@@ -65,7 +65,7 @@ Compromise.fine_tuning = function (data, used_orgs, used_locations, used_persons
 
         if (el.text == "XXX") {
             replaced += el.whitespace.preceding + el.text + el.whitespace.trailing;
-        } else if (el.pos.Date || el.pos.Value && !Util.inArray(el.text, used_dates) && limitations.date) {
+        } else if ((el.pos.Date || el.pos.Value) && !Util.inArray(el.text, used_dates) && limitations.date) {
             Compromise.get_unique_replacement(el, true, type);
             replaced += el.whitespace.preceding + Util.get_term_beginning(el.text) + Custom.check_date(el.text, el.replacement, type) + Util.get_term_terminator(el.text) + el.whitespace.trailing;
             Compromise.add_to_temp(el.normal, el.replacement);

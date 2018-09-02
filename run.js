@@ -13,6 +13,6 @@ var entities = {
     other: true
 };
 
-netanos.anon(input, entities, function (output) {
+netanos.ner(input, entities, function (output) {
     console.log(output);
 });

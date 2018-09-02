@@ -159,12 +159,14 @@ NER.replace_entities = function (entities, data, type, limitations) {
                 } else {
                     replacement = NER.get_replacement(property, entity, type, replaced);
 
-                    replaced.push(replacement);
                     if (property == 'ORGANIZATION' && limitations.organization) {
                         organizations.push(replacement);
+                        replaced.push(replacement);
                     } else if (property == 'LOCATION' && limitations.location) {
                         locations.push(replacement);
+                        replaced.push(replacement);
                     } else if (property == 'PERSON' && limitations.person) {
+                        replaced.push(replacement);
                         res = _Compromise().smart_name_rep(data, entity, replacement);
                         data = res.data;
                         if (res.entities) {
@@ -175,6 +177,7 @@ NER.replace_entities = function (entities, data, type, limitations) {
                         }
                         persons.push(replacement);
                     } else if (property == "DATE" && limitations.date) {
+                        replaced.push(replacement);
                         dates.push(replacement);
                     }
                 }
