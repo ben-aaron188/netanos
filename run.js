@@ -13,6 +13,16 @@ var entities = {
     other: true
 };
 
+netanos.anon(input, entities, function (output) {
+    console.log(output);
+});
+
 netanos.ner(input, entities, function (output) {
+    console.log(output);
+});
+
+console.log(netanos.noncontext(input));
+
+netanos.combined(input, entities, function (output) {
     console.log(output);
 });
