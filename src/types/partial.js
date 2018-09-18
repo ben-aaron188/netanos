@@ -1,12 +1,17 @@
 var Util = require('../util.js');
 var NamedEntityReplacement = require('./namedEntity.js');
-var entity_count = [0, 0, 0, 0, 0, 0, 0];
+
+// var this.entity_count = [0, 0, 0, 0, 0, 0, 0];
 
 function Partial() {
-    throw new Error('Partial is a static class!');
+    this.entity_count = [0, 0, 0, 0, 0, 0, 0];
 }
 
-Partial.partial_replacement = function (original, data, replacements) {
+Partial.reset = function () {
+    this.entity_count = [0, 0, 0, 0, 0, 0, 0];
+}
+
+Partial.partial_replacement = function (original, data, replacements, limitations, entities) {
     var prep = NamedEntityReplacement.preprocess_string(original);
     var replaced = [];
 
@@ -14,15 +19,15 @@ Partial.partial_replacement = function (original, data, replacements) {
         var el = prep.terms[i],
             entity = -1;
 
-        if (el.pos.Date) {
+        if (el.pos.Date && limitations.date) {
             entity = "DATE";
         } else if (el.pos.Value) {
             entity = "VALUE";
-        } else if (el.pos.Organization) {
+        } else if (el.pos.Organization && limitations.organization) {
             entity = "ORGANIZATION";
-        } else if (el.pos.Place) {
+        } else if (el.pos.Place && limitations.location) {
             entity = "LOCATION";
-        } else if (el.pos.Person && el.pos.Pronoun !== true) {
+        } else if (el.pos.Person && el.pos.Pronoun !== true && limitations.person) {
             entity = "PERSON";
         }
 
@@ -41,7 +46,7 @@ Partial.partial_replacement = function (original, data, replacements) {
 
     for (var i = 0; i < replacements.length; i++) {
         var current = replacements[i];
-        var entity_regex = new RegExp(current.original, 'g');
+        var entity_regex = new RegExp(Partial.remove_invalid_chars(current.original), 'g');
 
         if (current.original != "a") {
             var replacer = Partial.ner_replace_unnamed("", current.entity);
@@ -51,40 +56,64 @@ Partial.partial_replacement = function (original, data, replacements) {
         }
     }
 
-    return Partial.replace_capital_firsts(original);
+    return Partial.replace_capital_firsts(original, limitations, entities);
 }
 
-Partial.replace_capital_firsts = function (output) {
+Partial.remove_invalid_chars = function (string) {
+    var invalid_chars = /[°"§%()\[\]{}=\\?´`'#<>|,;.:+_-]+/g;
+    return string.replace(invalid_chars, "");
+}
+
+Partial.replace_capital_firsts = function (output, limitations, entities) {
     var split = output.split(" "),
         adj_string = output,
         replacement;
 
     for (var i = 1; i < split.length; i++) {
-
         if (split[i].length > 0) {
-            if (split[i][0] === split[i][0].toUpperCase() && split[i][0] !== "[" && split[i - 1][split[i - 1].length - 1] != ".") {
 
+            var valid_limitation = true;
+            var raw_split = Util.remove_term_terminator(split[i]);
 
-                if (split[i][split[i].length - 1] == ".") {
-                    if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
-                        entity_count[5]++;
-                        replacement = "[OTHER_" + entity_count[5] + "]";
+            if (!limitations.person && entities.PERSON.indexOf(raw_split) != -1
+                || !limitations.location && entities.LOCATION.indexOf(raw_split) != -1
+                || !limitations.organization && entities.ORGANIZATION.indexOf(raw_split) != -1
+            ) {
+                valid_limitation = false;
+            }
+
+            if (valid_limitation) {
+                if (split[i][0] === split[i][0].toUpperCase() && split[i][0] !== "[" && split[i - 1][split[i - 1].length - 1] != ".") {
+
+                    if (split[i][split[i].length - 1] == ".") {
+                        if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
+                            if (limitations.other) {
+                                this.entity_count[5]++;
+                                replacement = "[OTHER_" + this.entity_count[5] + "]";
+
+                                adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                            }
+                        } else if (limitations.numeric) {
+                            this.entity_count[6]++;
+                            replacement = "[NUMERIC_" + this.entity_count[6] + "]";
+
+                            adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                        }
                     } else {
-                        entity_count[6]++;
-                        replacement = "[NUMERIC_" + entity_count[6] + "]";
-                    }
+                        if (isNaN(split[i])) {
+                            if (limitations.other) {
+                                this.entity_count[5]++;
+                                replacement = "[OTHER_" + this.entity_count[5] + "]";
 
-                    adj_string = adj_string.replace(new RegExp(split[i].substring(0, split[i].length - 1), 'g'), replacement);
-                } else {
-                    if (isNaN(split[i])) {
-                        entity_count[5]++;
-                        replacement = "[OTHER_" + entity_count[5] + "]";
-                    } else {
-                        entity_count[6]++;
-                        replacement = "[NUMERIC_" + entity_count[6] + "]";
-                    }
+                                adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                            }
+                        } else if (limitations.numeric) {
+                            this.entity_count[6]++;
+                            replacement = "[NUMERIC_" + this.entity_count[6] + "]";
 
-                    adj_string = adj_string.replace(new RegExp(split[i], 'g'), replacement);
+                            adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                        }
+                    }
                 }
             }
         }
@@ -118,25 +147,25 @@ Partial.toSet = function (replacements) {
 Partial.ner_replace_unnamed = function (entity, property) {
 
     if (property == "DATE") {
-        entity_count[0]++;
+        this.entity_count[0]++;
 
-        return "[DATE/TIME_" + entity_count[0] + "]";
+        return "[DATE/TIME_" + this.entity_count[0] + "]";
     } else if (property == "VALUE") {
-        entity_count[1]++;
+        this.entity_count[1]++;
 
-        return "[NUMBER_" + entity_count[1] + "]";
+        return "[NUMBER_" + this.entity_count[1] + "]";
     } else if (property == "PERSON") {
-        entity_count[4]++;
+        this.entity_count[4]++;
 
-        return "[PERSON_" + entity_count[4] + "]";
+        return "[PERSON_" + this.entity_count[4] + "]";
     } else if (property == "ORGANIZATION") {
-        entity_count[2]++;
+        this.entity_count[2]++;
 
-        return "[COMPANY_" + entity_count[2] + "]";
+        return "[COMPANY_" + this.entity_count[2] + "]";
     } else if (property == "LOCATION") {
-        entity_count[3]++;
+        this.entity_count[3]++;
 
-        return "[LOCATION_" + entity_count[3] + "]";
+        return "[LOCATION_" + this.entity_count[3] + "]";
     } else {
         return entity;
     }

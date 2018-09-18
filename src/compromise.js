@@ -54,7 +54,7 @@ Compromise.replace_multi_names = function (data) {
 
 }
 
-Compromise.fine_tuning = function (data, used_orgs, used_locations, used_persons, used_dates, replaced_ner, type) {
+Compromise.fine_tuning = function (data, used_orgs, used_locations, used_persons, used_dates, replaced_ner, type, limitations) {
     var replaced = "";
     var entities = [];
     var prep = NamedEntityReplacement.preprocess_string(data);
@@ -65,25 +65,25 @@ Compromise.fine_tuning = function (data, used_orgs, used_locations, used_persons
 
         if (el.text == "XXX") {
             replaced += el.whitespace.preceding + el.text + el.whitespace.trailing;
-        } else if (el.pos.Date || el.pos.Value && !Util.inArray(el.text, used_dates)) {
+        } else if ((el.pos.Date || el.pos.Value) && !Util.inArray(el.text, used_dates) && limitations.date) {
             Compromise.get_unique_replacement(el, true, type);
             replaced += el.whitespace.preceding + Util.get_term_beginning(el.text) + Custom.check_date(el.text, el.replacement, type) + Util.get_term_terminator(el.text) + el.whitespace.trailing;
             Compromise.add_to_temp(el.normal, el.replacement);
 
             entities.push(el.text + " => " + el.replacement);
-        } else if (el.pos.Organization && !Util.inArray(el.text, used_orgs)) {
+        } else if (el.pos.Organization && !Util.inArray(el.text, used_orgs) && limitations.organization) {
             Compromise.get_unique_replacement(el, false, type);
             replaced += el.whitespace.preceding + Util.get_term_beginning(el.text) + el.replacement + Util.get_term_terminator(el.text) + el.whitespace.trailing;
             Compromise.add_to_temp(el.normal, el.replacement);
 
             entities.push(el.text + " => " + el.replacement);
-        } else if (el.pos.Place && !Util.inArray(el.text, used_locations)) {
+        } else if (el.pos.Place && !Util.inArray(el.text, used_locations) && limitations.location) {
             Compromise.get_unique_replacement(el, false, type);
             replaced += el.whitespace.preceding + Util.get_term_beginning(el.text) + el.replacement + Util.get_term_terminator(el.text) + el.whitespace.trailing;
             Compromise.add_to_temp(el.normal, el.replacement);
 
             entities.push(el.text + " => " + el.replacement);
-        } else if (el.pos.Person && el.pos.Pronoun !== true && !Util.inArray(el.text, used_persons)) {
+        } else if (el.pos.Person && el.pos.Pronoun !== true && !Util.inArray(el.text, used_persons) && limitations.person) {
             Compromise.get_unique_replacement(el, false, type);
             replaced += el.whitespace.preceding + Util.get_term_beginning(el.text) + el.replacement + Util.get_term_terminator(el.text) + el.whitespace.trailing;
             Compromise.add_to_temp(el.normal, el.replacement);

@@ -7,13 +7,51 @@ var input = "Max and Ben spent more than 1000 hours on writing the software. The
  * entity of the same type (e.g. Peter -> Alfred, Chicago -> London).
  */
 describe('Named entity-based replacement (ner)', function () {
+    var limitations = {
+        person: true,
+        organization: true,
+        currency: true,
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
+
     it('should not contain the entities "Max", "Ben", "1000 hours", "August 2016" and "Amsterdam"', function (done) {
-        netanos.ner(input, function (output) {
+        netanos.ner(input, limitations, function (output) {
             assert.equal(output.indexOf("Max "), -1);
             assert.equal(output.indexOf(" Ben "), -1);
             assert.equal(output.indexOf(" 1000 hours "), -1);
             assert.equal(output.indexOf(" August 2016 "), -1);
             assert.equal(output.indexOf(" Amsterdam "), -1);
+            done();
+        });
+    });
+});
+
+/**
+ * Test for specific named entity-based replacement (netanos.ner): each identified entity of a selected type will be
+ * replaced with a different entity of the same type (e.g. Peter -> Alfred, Chicago -> London).
+ */
+describe('Specific named entity-based replacement (ner)', function () {
+    var limitations = {
+        person: false,
+        organization: true,
+        currency: true,
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
+
+    it('should not contain the entities "August 2016" and "Amsterdam", but "Max" and "Bennett"', function (done) {
+        netanos.ner(input, limitations, function (output) {
+            assert.equal(output.indexOf(" August 2016 "), -1);
+            assert.equal(output.indexOf(" Amsterdam "), -1);
+            assert.equal(output.indexOf("Max "), input.indexOf("Max"));
+            assert.equal(output.indexOf(" Bennett "), input.indexOf("Bennett"));
             done();
         });
     });
@@ -26,8 +64,19 @@ describe('Named entity-based replacement (ner)', function () {
 describe('Context-preserving anonymization (anon)', function () {
     var anonymized = "[PERSON_1] and [PERSON_2] spent more than [DATE/TIME_1] on writing the software. They started in [DATE/TIME_2] in [LOCATION_1].";
 
+    var limitations = {
+        person: true,
+        organization: true,
+        currency: true,
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
+
     it('should return ' + anonymized, function (done) {
-        netanos.anon(input, function (output) {
+        netanos.anon(input, limitations, function (output) {
             assert.equal(anonymized, output);
             done();
         });
@@ -42,8 +91,19 @@ describe('Context-preserving anonymization (anon)', function () {
 describe('Combined, non-context preserving anonymization (combined)', function () {
     var anonymized = "XXX and XXX spent more than XXX XXX on writing the software. XXX started in XXX XXX in XXX.";
 
+    var limitations = {
+        person: true,
+        organization: true,
+        currency: true,
+        date: true,
+        location: true,
+        pronoun: true,
+        numeric: true,
+        other: true
+    };
+
     it('should return ' + anonymized, function (done) {
-        netanos.combined(input, function (output) {
+        netanos.combined(input, limitations, function (output) {
             assert.equal(anonymized, output);
             done();
         });
