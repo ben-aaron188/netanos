@@ -92,7 +92,7 @@ Partial.replace_capital_firsts = function (output, limitations, entities) {
                                     var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
                                     if (clean_replacement != "") {
-                                        adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
+                                        adj_string = Util.replace(adj_string, clean_replacement, replacement);
                                     }
                                 }
                             } else if (limitations.numeric) {
@@ -101,7 +101,7 @@ Partial.replace_capital_firsts = function (output, limitations, entities) {
                                 var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
                                 if (clean_replacement != "") {
-                                    adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
+                                    adj_string = Util.replace(adj_string, clean_replacement, replacement);
                                 }
                             }
                         } else {
@@ -112,7 +112,6 @@ Partial.replace_capital_firsts = function (output, limitations, entities) {
                                     var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
                                     if (clean_replacement != "") {
-                                        // adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
                                         adj_string = Util.replace(adj_string, clean_replacement, replacement);
                                     }
                                 }
@@ -122,7 +121,6 @@ Partial.replace_capital_firsts = function (output, limitations, entities) {
                                 var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
                                 if (clean_replacement != "") {
-                                    // adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
                                     adj_string = Util.replace(adj_string, clean_replacement, replacement);
                                 }
                             }
