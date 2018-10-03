@@ -71,47 +71,61 @@ Partial.replace_capital_firsts = function (output, limitations, entities) {
 
     for (var i = 1; i < split.length; i++) {
         if (split[i].length > 0) {
+            if (Util.is_letter(split[i][0])) {
+                var valid_limitation = true;
+                var raw_split = Util.remove_term_terminator(split[i]);
 
-            var valid_limitation = true;
-            var raw_split = Util.remove_term_terminator(split[i]);
+                if (!limitations.person && entities.PERSON.indexOf(raw_split) != -1
+                    || !limitations.location && entities.LOCATION.indexOf(raw_split) != -1
+                    || !limitations.organization && entities.ORGANIZATION.indexOf(raw_split) != -1
+                ) {
+                    valid_limitation = false;
+                }
 
-            if (!limitations.person && entities.PERSON.indexOf(raw_split) != -1
-                || !limitations.location && entities.LOCATION.indexOf(raw_split) != -1
-                || !limitations.organization && entities.ORGANIZATION.indexOf(raw_split) != -1
-            ) {
-                valid_limitation = false;
-            }
+                if (valid_limitation) {
+                    if (split[i][0] === split[i][0].toUpperCase() && split[i][0] !== "[" && split[i - 1][split[i - 1].length - 1] != ".") {
+                        if (split[i][split[i].length - 1] == ".") {
+                            if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
+                                if (limitations.other) {
+                                    this.entity_count[5]++;
+                                    replacement = "[OTHER_" + this.entity_count[5] + "]";
+                                    var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
-            if (valid_limitation) {
-                if (split[i][0] === split[i][0].toUpperCase() && split[i][0] !== "[" && split[i - 1][split[i - 1].length - 1] != ".") {
+                                    if (clean_replacement != "") {
+                                        adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
+                                    }
+                                }
+                            } else if (limitations.numeric) {
+                                this.entity_count[6]++;
+                                replacement = "[NUMERIC_" + this.entity_count[6] + "]";
+                                var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
-                    if (split[i][split[i].length - 1] == ".") {
-                        if (isNaN(split[i].substring(0, [split[i].length - 1]))) {
-                            if (limitations.other) {
-                                this.entity_count[5]++;
-                                replacement = "[OTHER_" + this.entity_count[5] + "]";
-
-                                adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
+                                if (clean_replacement != "") {
+                                    adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
+                                }
                             }
-                        } else if (limitations.numeric) {
-                            this.entity_count[6]++;
-                            replacement = "[NUMERIC_" + this.entity_count[6] + "]";
+                        } else {
+                            if (isNaN(split[i])) {
+                                if (limitations.other) {
+                                    this.entity_count[5]++;
+                                    replacement = "[OTHER_" + this.entity_count[5] + "]";
+                                    var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
-                            adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i].substring(0, split[i].length - 1)), 'g'), replacement);
-                        }
-                    } else {
-                        if (isNaN(split[i])) {
-                            if (limitations.other) {
-                                this.entity_count[5]++;
-                                replacement = "[OTHER_" + this.entity_count[5] + "]";
+                                    if (clean_replacement != "") {
+                                        // adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
+                                        adj_string = Util.replace(adj_string, clean_replacement, replacement);
+                                    }
+                                }
+                            } else if (limitations.numeric) {
+                                this.entity_count[6]++;
+                                replacement = "[NUMERIC_" + this.entity_count[6] + "]";
+                                var clean_replacement = Partial.remove_invalid_chars(split[i]);
 
-                                adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
+                                if (clean_replacement != "") {
+                                    // adj_string = adj_string.replace(new RegExp(clean_replacement, 'g'), replacement);
+                                    adj_string = Util.replace(adj_string, clean_replacement, replacement);
+                                }
                             }
-                        } else if (limitations.numeric) {
-                            this.entity_count[6]++;
-                            replacement = "[NUMERIC_" + this.entity_count[6] + "]";
-
-                            adj_string = adj_string.replace(new RegExp(Partial.remove_invalid_chars(split[i]), 'g'), replacement);
                         }
                     }
                 }

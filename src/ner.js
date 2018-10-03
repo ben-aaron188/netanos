@@ -17,7 +17,6 @@ function NER() {
  * @param {String} file The name of the given file name
  */
 NER.get_entities = function (string_input, type, limitations) {
-
     var promise = new Promise(function (resolve, reject) {
         ner.get({
             port: 8080,
