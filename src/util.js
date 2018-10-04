@@ -126,6 +126,23 @@ Util.remove_duplicates = function (array) {
     return set;
 }
 
+Util.replace = function (input, elem, replace) {
+    var split = input.split(" ");
+
+    for (var i = 0; i < split.length; i++) {
+        if (split[i] == elem) {
+            split[i] = replace;
+        }
+    }
+
+    return split.join(" ");
+}
+
+// Source: https://stackoverflow.com/a/9862788
+Util.is_letter = function (str) {
+    return str.length === 1 && str.match(/[a-z]/i);
+}
+
 Util.remove_term_terminator = function (stringinput) {
     var punctuation = ['[', '.', ',', '/', '#', '!', '$', '%', '&', '*', ';', ':', '{', '}', '=', '-', '_', '`', '~', '(', ')', ']'];
     var last_char = stringinput[stringinput.length - 1];
